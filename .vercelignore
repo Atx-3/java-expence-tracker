@@ -1,0 +1,9 @@
+# Ignore Java source files and build artifacts for Vercel
+src/
+out/
+target/
+lib/
+*.bat
+*.class
+pom.xml
+.vscode/

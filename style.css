@@ -195,8 +195,8 @@ input, select, textarea, button {
     top: 0;
     z-index: 10;
     background: var(--bg-primary);
-    backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
 }
 
 .view-header h1 {
@@ -653,8 +653,8 @@ input, select, textarea, button {
     border-top: 1px solid var(--border);
     padding: 6px 8px 8px;
     z-index: 100;
-    backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
 }
 
 @media (min-width: 481px) {
@@ -1082,8 +1082,8 @@ input, select, textarea, button {
     position: fixed;
     inset: 0;
     background: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(4px);
     -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
     display: flex;
     align-items: flex-end;
     justify-content: center;
@@ -1271,6 +1271,7 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 input[type="number"] {
     -moz-appearance: textfield;
+    appearance: textfield;
 }
 
 /* =============================================

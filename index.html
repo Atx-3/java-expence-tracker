@@ -98,7 +98,7 @@
                         <i class="fas fa-search"></i>
                         <input type="text" id="searchInput" placeholder="Search transactions..." autocomplete="off">
                     </div>
-                    <select id="typeFilter" class="filter-select">
+                    <select id="typeFilter" class="filter-select" aria-label="Filter by transaction type" title="Filter by type">
                         <option value="all">All Types</option>
                         <option value="income">Income</option>
                         <option value="expense">Expense</option>
@@ -168,7 +168,7 @@
             <!-- SETTINGS VIEW (shown as overlay) -->
             <section id="settingsView" class="view">
                 <header class="view-header">
-                    <button class="icon-btn back-btn" id="settingsBackBtn"><i class="fas fa-arrow-left"></i></button>
+                    <button class="icon-btn back-btn" id="settingsBackBtn" aria-label="Go back" title="Go back"><i class="fas fa-arrow-left"></i></button>
                     <h1>Settings</h1>
                 </header>
 
@@ -180,7 +180,7 @@
                             <span>Dark Mode</span>
                         </div>
                         <label class="toggle-switch">
-                            <input type="checkbox" id="darkModeToggle">
+                            <input type="checkbox" id="darkModeToggle" title="Toggle dark mode" aria-label="Toggle dark mode">
                             <span class="toggle-slider"></span>
                         </label>
                     </div>
@@ -193,7 +193,7 @@
                             <i class="fas fa-coins"></i>
                             <span>Currency</span>
                         </div>
-                        <select id="currencySelect" class="filter-select">
+                        <select id="currencySelect" class="filter-select" aria-label="Select currency" title="Select currency">
                             <option value="USD">USD ($)</option>
                             <option value="EUR">EUR (€)</option>
                             <option value="GBP">GBP (£)</option>
@@ -255,7 +255,7 @@
             <div class="modal" id="addModalContent">
                 <div class="modal-header">
                     <h2 id="modalTitle">Add Transaction</h2>
-                    <button class="icon-btn" id="modalCloseBtn"><i class="fas fa-times"></i></button>
+                    <button class="icon-btn" id="modalCloseBtn" aria-label="Close modal" title="Close"><i class="fas fa-times"></i></button>
                 </div>
                 <div class="modal-body">
                     <!-- Type Selector -->
@@ -292,7 +292,7 @@
                     <!-- Date -->
                     <div class="form-group">
                         <label>Date</label>
-                        <input type="date" id="dateInput">
+                        <input type="date" id="dateInput" title="Transaction date" aria-label="Transaction date">
                     </div>
 
                     <!-- Notes -->
