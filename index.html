@@ -13,76 +13,123 @@
 </head>
 <body>
     <div id="app" class="app">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-brand">
+                <div class="brand-icon">
+                    <i class="fas fa-wallet"></i>
+                </div>
+                <span class="brand-name">ExpenseTracker</span>
+            </div>
+
+            <nav class="sidebar-nav">
+                <button class="nav-item active" data-view="home" id="navHome">
+                    <i class="fas fa-home"></i>
+                    <span>Dashboard</span>
+                </button>
+                <button class="nav-item" data-view="transactions" id="navTransactions">
+                    <i class="fas fa-list-ul"></i>
+                    <span>Transactions</span>
+                </button>
+                <button class="nav-item" data-view="reports" id="navReports">
+                    <i class="fas fa-chart-pie"></i>
+                    <span>Reports</span>
+                </button>
+                <button class="nav-item" data-view="settings" id="navSettings">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </button>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button class="add-transaction-btn" id="sidebarAddBtn">
+                    <i class="fas fa-plus"></i>
+                    <span>Add Transaction</span>
+                </button>
+            </div>
+        </aside>
+
         <!-- Main Content Area -->
-        <main id="mainContent" class="main-content">
-            <!-- HOME VIEW -->
+        <main class="main-content" id="mainContent">
+            <!-- HOME / DASHBOARD VIEW -->
             <section id="homeView" class="view active">
                 <header class="view-header">
-                    <h1 class="app-title">Expense Tracker</h1>
-                    <button id="headerSettingsBtn" class="icon-btn" aria-label="Settings">
-                        <i class="fas fa-cog"></i>
-                    </button>
+                    <div>
+                        <h1>Dashboard</h1>
+                        <p class="view-subtitle" id="balanceDate"></p>
+                    </div>
+                    <div class="header-actions">
+                        <button class="btn btn-primary" id="headerAddBtn">
+                            <i class="fas fa-plus"></i> Add Transaction
+                        </button>
+                    </div>
                 </header>
 
-                <!-- Balance Card -->
-                <div class="balance-card" id="balanceCard">
-                    <div class="balance-card-bg"></div>
-                    <div class="balance-card-content">
-                        <p class="balance-label">Total Balance</p>
-                        <h2 class="balance-amount" id="totalBalance">$0.00</h2>
-                        <div class="balance-date" id="balanceDate"></div>
-                    </div>
-                    <div class="balance-card-decoration">
-                        <div class="deco-circle deco-circle-1"></div>
-                        <div class="deco-circle deco-circle-2"></div>
-                    </div>
-                </div>
-
-                <!-- Income / Expense Summary -->
-                <div class="summary-row">
-                    <div class="summary-card summary-income" id="summaryIncome">
-                        <div class="summary-icon">
-                            <i class="fas fa-arrow-up"></i>
+                <!-- Top Summary Cards -->
+                <div class="dashboard-cards">
+                    <div class="dash-card balance-card" id="balanceCard">
+                        <div class="dash-card-decoration">
+                            <div class="deco-circle deco-circle-1"></div>
+                            <div class="deco-circle deco-circle-2"></div>
                         </div>
-                        <div class="summary-info">
-                            <span class="summary-label">Income</span>
-                            <span class="summary-amount" id="totalIncome">$0.00</span>
+                        <div class="dash-card-content">
+                            <div class="dash-card-icon"><i class="fas fa-wallet"></i></div>
+                            <div class="dash-card-info">
+                                <span class="dash-card-label">Total Balance</span>
+                                <span class="dash-card-value" id="totalBalance">$0.00</span>
+                            </div>
                         </div>
                     </div>
-                    <div class="summary-card summary-expense" id="summaryExpense">
-                        <div class="summary-icon">
-                            <i class="fas fa-arrow-down"></i>
-                        </div>
-                        <div class="summary-info">
-                            <span class="summary-label">Expense</span>
-                            <span class="summary-amount" id="totalExpense">$0.00</span>
+                    <div class="dash-card income-card">
+                        <div class="dash-card-content">
+                            <div class="dash-card-icon income"><i class="fas fa-arrow-up"></i></div>
+                            <div class="dash-card-info">
+                                <span class="dash-card-label">Total Income</span>
+                                <span class="dash-card-value income" id="totalIncome">$0.00</span>
+                            </div>
                         </div>
                     </div>
-                </div>
-
-                <!-- Recent Transactions -->
-                <div class="section">
-                    <div class="section-header">
-                        <h3>Recent Transactions</h3>
-                        <button class="link-btn" id="viewAllTransactions">View All</button>
-                    </div>
-                    <div id="recentTransactions" class="transactions-list">
-                        <div class="empty-state">
-                            <i class="fas fa-receipt"></i>
-                            <p>No transactions yet</p>
-                            <span>Tap + to add your first transaction</span>
+                    <div class="dash-card expense-card">
+                        <div class="dash-card-content">
+                            <div class="dash-card-icon expense"><i class="fas fa-arrow-down"></i></div>
+                            <div class="dash-card-info">
+                                <span class="dash-card-label">Total Expenses</span>
+                                <span class="dash-card-value expense" id="totalExpense">$0.00</span>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Category Breakdown -->
-                <div class="section">
-                    <div class="section-header">
-                        <h3>Spending by Category</h3>
+                <!-- Dashboard Grid -->
+                <div class="dashboard-grid">
+                    <!-- Recent Transactions -->
+                    <div class="panel">
+                        <div class="panel-header">
+                            <h3>Recent Transactions</h3>
+                            <button class="link-btn" id="viewAllTransactions">View All <i class="fas fa-arrow-right"></i></button>
+                        </div>
+                        <div class="panel-body">
+                            <div id="recentTransactions" class="transactions-list">
+                                <div class="empty-state">
+                                    <i class="fas fa-receipt"></i>
+                                    <p>No transactions yet</p>
+                                    <span>Click "Add Transaction" to get started</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div id="categoryBreakdown" class="category-list">
-                        <div class="empty-state sm">
-                            <p>No expense data yet</p>
+
+                    <!-- Category Breakdown -->
+                    <div class="panel">
+                        <div class="panel-header">
+                            <h3>Spending by Category</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div id="categoryBreakdown" class="category-list">
+                                <div class="empty-state sm">
+                                    <p>No expense data yet</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -91,8 +138,17 @@
             <!-- TRANSACTIONS VIEW -->
             <section id="transactionsView" class="view">
                 <header class="view-header">
-                    <h1>Transactions</h1>
+                    <div>
+                        <h1>Transactions</h1>
+                        <p class="view-subtitle">Manage all your transactions</p>
+                    </div>
+                    <div class="header-actions">
+                        <button class="btn btn-primary" id="transactionsAddBtn">
+                            <i class="fas fa-plus"></i> Add Transaction
+                        </button>
+                    </div>
                 </header>
+
                 <div class="filter-bar">
                     <div class="search-wrapper" id="searchWrapper">
                         <i class="fas fa-search"></i>
@@ -104,10 +160,15 @@
                         <option value="expense">Expense</option>
                     </select>
                 </div>
-                <div id="allTransactions" class="transactions-list full">
-                    <div class="empty-state">
-                        <i class="fas fa-receipt"></i>
-                        <p>No transactions found</p>
+
+                <div class="panel">
+                    <div class="panel-body">
+                        <div id="allTransactions" class="transactions-list">
+                            <div class="empty-state">
+                                <i class="fas fa-receipt"></i>
+                                <p>No transactions found</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -115,159 +176,191 @@
             <!-- REPORTS VIEW -->
             <section id="reportsView" class="view">
                 <header class="view-header">
-                    <h1>Reports</h1>
+                    <div>
+                        <h1>Reports & Analytics</h1>
+                        <p class="view-subtitle">Insights into your spending habits</p>
+                    </div>
                 </header>
 
                 <div class="period-selector" id="periodSelector">
                     <button class="period-btn" data-period="week">Week</button>
                     <button class="period-btn active" data-period="month">Month</button>
                     <button class="period-btn" data-period="year">Year</button>
-                    <button class="period-btn" data-period="all">All</button>
+                    <button class="period-btn" data-period="all">All Time</button>
                 </div>
 
+                <!-- Stats Row -->
                 <div class="stats-row" id="statsRow">
                     <div class="stat-card stat-income">
-                        <span class="stat-label">Income</span>
-                        <span class="stat-value" id="statIncome">$0.00</span>
-                    </div>
-                    <div class="stat-card stat-expense">
-                        <span class="stat-label">Expense</span>
-                        <span class="stat-value" id="statExpense">$0.00</span>
-                    </div>
-                    <div class="stat-card stat-net">
-                        <span class="stat-label">Net</span>
-                        <span class="stat-value" id="statNet">$0.00</span>
-                    </div>
-                </div>
-
-                <div class="section">
-                    <h3>Spending Distribution</h3>
-                    <div class="chart-container" id="donutChartContainer">
-                        <canvas id="donutChart" width="280" height="280"></canvas>
-                        <div class="chart-center" id="chartCenter">
-                            <span class="chart-total-label">Total</span>
-                            <span class="chart-total-amount" id="chartTotalAmount">$0</span>
+                        <div class="stat-icon income"><i class="fas fa-arrow-up"></i></div>
+                        <div>
+                            <span class="stat-label">Income</span>
+                            <span class="stat-value" id="statIncome">$0.00</span>
                         </div>
                     </div>
-                    <div id="chartLegend" class="chart-legend"></div>
+                    <div class="stat-card stat-expense">
+                        <div class="stat-icon expense"><i class="fas fa-arrow-down"></i></div>
+                        <div>
+                            <span class="stat-label">Expense</span>
+                            <span class="stat-value" id="statExpense">$0.00</span>
+                        </div>
+                    </div>
+                    <div class="stat-card stat-net">
+                        <div class="stat-icon net"><i class="fas fa-scale-balanced"></i></div>
+                        <div>
+                            <span class="stat-label">Net Savings</span>
+                            <span class="stat-value" id="statNet">$0.00</span>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="section">
-                    <h3>Category Breakdown</h3>
-                    <div id="reportCategoryBreakdown" class="category-list"></div>
+                <div class="reports-grid">
+                    <!-- Donut Chart -->
+                    <div class="panel">
+                        <div class="panel-header">
+                            <h3>Spending Distribution</h3>
+                        </div>
+                        <div class="panel-body chart-panel-body">
+                            <div class="chart-container" id="donutChartContainer">
+                                <canvas id="donutChart" width="260" height="260"></canvas>
+                                <div class="chart-center" id="chartCenter">
+                                    <span class="chart-total-label">Total</span>
+                                    <span class="chart-total-amount" id="chartTotalAmount">$0</span>
+                                </div>
+                            </div>
+                            <div id="chartLegend" class="chart-legend"></div>
+                        </div>
+                    </div>
+
+                    <!-- Bar Chart -->
+                    <div class="panel">
+                        <div class="panel-header">
+                            <h3>Monthly Trend</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="bar-chart-container">
+                                <canvas id="barChart" width="500" height="250"></canvas>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="section">
-                    <h3>Monthly Trend</h3>
-                    <div class="bar-chart-container">
-                        <canvas id="barChart" width="400" height="200"></canvas>
+                <!-- Category Breakdown -->
+                <div class="panel" style="margin-top:20px">
+                    <div class="panel-header">
+                        <h3>Category Breakdown</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div id="reportCategoryBreakdown" class="category-list category-list-grid"></div>
                     </div>
                 </div>
             </section>
 
-            <!-- SETTINGS VIEW (shown as overlay) -->
+            <!-- SETTINGS VIEW -->
             <section id="settingsView" class="view">
                 <header class="view-header">
-                    <button class="icon-btn back-btn" id="settingsBackBtn" aria-label="Go back" title="Go back"><i class="fas fa-arrow-left"></i></button>
-                    <h1>Settings</h1>
+                    <div>
+                        <h1>Settings</h1>
+                        <p class="view-subtitle">Customize your experience</p>
+                    </div>
                 </header>
 
-                <div class="settings-group">
-                    <h4 class="settings-group-title">Appearance</h4>
-                    <div class="settings-row">
-                        <div class="settings-row-info">
-                            <i class="fas fa-moon"></i>
-                            <span>Dark Mode</span>
+                <div class="settings-container">
+                    <div class="panel">
+                        <div class="panel-header"><h3>Appearance</h3></div>
+                        <div class="panel-body">
+                            <div class="settings-row">
+                                <div class="settings-row-info">
+                                    <i class="fas fa-moon"></i>
+                                    <div>
+                                        <span class="settings-label">Dark Mode</span>
+                                        <span class="settings-desc">Switch between light and dark themes</span>
+                                    </div>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="darkModeToggle" title="Toggle dark mode" aria-label="Toggle dark mode">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
                         </div>
-                        <label class="toggle-switch">
-                            <input type="checkbox" id="darkModeToggle" title="Toggle dark mode" aria-label="Toggle dark mode">
-                            <span class="toggle-slider"></span>
-                        </label>
                     </div>
-                </div>
 
-                <div class="settings-group">
-                    <h4 class="settings-group-title">Currency</h4>
-                    <div class="settings-row">
-                        <div class="settings-row-info">
-                            <i class="fas fa-coins"></i>
-                            <span>Currency</span>
+                    <div class="panel">
+                        <div class="panel-header"><h3>Currency</h3></div>
+                        <div class="panel-body">
+                            <div class="settings-row">
+                                <div class="settings-row-info">
+                                    <i class="fas fa-coins"></i>
+                                    <div>
+                                        <span class="settings-label">Display Currency</span>
+                                        <span class="settings-desc">Choose your preferred currency</span>
+                                    </div>
+                                </div>
+                                <select id="currencySelect" class="filter-select" aria-label="Select currency" title="Select currency">
+                                    <option value="USD">USD ($)</option>
+                                    <option value="EUR">EUR (€)</option>
+                                    <option value="GBP">GBP (£)</option>
+                                    <option value="JPY">JPY (¥)</option>
+                                    <option value="INR">INR (₹)</option>
+                                </select>
+                            </div>
                         </div>
-                        <select id="currencySelect" class="filter-select" aria-label="Select currency" title="Select currency">
-                            <option value="USD">USD ($)</option>
-                            <option value="EUR">EUR (€)</option>
-                            <option value="GBP">GBP (£)</option>
-                            <option value="JPY">JPY (¥)</option>
-                            <option value="INR">INR (₹)</option>
-                        </select>
                     </div>
-                </div>
 
-                <div class="settings-group">
-                    <h4 class="settings-group-title">Data Management</h4>
-                    <button class="settings-action-btn" id="exportDataBtn">
-                        <i class="fas fa-download"></i>
-                        Export Data
-                    </button>
-                    <button class="settings-action-btn danger" id="clearDataBtn">
-                        <i class="fas fa-trash-alt"></i>
-                        Clear All Data
-                    </button>
-                </div>
+                    <div class="panel">
+                        <div class="panel-header"><h3>Data Management</h3></div>
+                        <div class="panel-body">
+                            <div class="settings-actions">
+                                <button class="settings-action-btn" id="exportDataBtn">
+                                    <i class="fas fa-download"></i>
+                                    <div>
+                                        <span class="settings-label">Export Data</span>
+                                        <span class="settings-desc">Download all transactions as JSON</span>
+                                    </div>
+                                </button>
+                                <button class="settings-action-btn danger" id="clearDataBtn">
+                                    <i class="fas fa-trash-alt"></i>
+                                    <div>
+                                        <span class="settings-label">Clear All Data</span>
+                                        <span class="settings-desc">Permanently delete all transactions</span>
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
 
-                <div class="settings-group about">
-                    <h4 class="settings-group-title">About</h4>
-                    <p class="about-name">Expense Tracker <span>v1.0.0</span></p>
-                    <p class="about-desc">A modern expense tracking application</p>
-                    <p class="about-copy">&copy; 2026 Built with ❤️</p>
+                    <div class="panel about-panel">
+                        <div class="panel-body" style="text-align:center; padding:32px">
+                            <div class="about-icon"><i class="fas fa-wallet"></i></div>
+                            <p class="about-name">Expense Tracker <span>v1.0.0</span></p>
+                            <p class="about-desc">A modern expense tracking application</p>
+                            <p class="about-copy">&copy; 2026 Built with ❤️</p>
+                        </div>
+                    </div>
                 </div>
             </section>
         </main>
+    </div>
 
-        <!-- Bottom Nav -->
-        <nav class="bottom-nav" id="bottomNav">
-            <button class="nav-btn active" data-view="home" id="navHome">
-                <i class="fas fa-home"></i>
-                <span>Home</span>
-            </button>
-            <button class="nav-btn" data-view="transactions" id="navTransactions">
-                <i class="fas fa-list"></i>
-                <span>Transactions</span>
-            </button>
-            <button class="nav-btn add-btn" id="navAdd">
-                <div class="add-btn-circle">
-                    <i class="fas fa-plus"></i>
+    <!-- Add/Edit Transaction Modal -->
+    <div class="modal-overlay" id="addModal">
+        <div class="modal" id="addModalContent">
+            <div class="modal-header">
+                <h2 id="modalTitle">Add Transaction</h2>
+                <button class="icon-btn" id="modalCloseBtn" aria-label="Close modal" title="Close"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <!-- Type Selector -->
+                <div class="type-toggle" id="typeToggle">
+                    <button class="type-btn active" data-type="expense" id="typeExpenseBtn">
+                        <i class="fas fa-arrow-down"></i> Expense
+                    </button>
+                    <button class="type-btn" data-type="income" id="typeIncomeBtn">
+                        <i class="fas fa-arrow-up"></i> Income
+                    </button>
                 </div>
-                <span>Add</span>
-            </button>
-            <button class="nav-btn" data-view="reports" id="navReports">
-                <i class="fas fa-chart-pie"></i>
-                <span>Reports</span>
-            </button>
-            <button class="nav-btn" data-view="settings" id="navSettings">
-                <i class="fas fa-cog"></i>
-                <span>Settings</span>
-            </button>
-        </nav>
 
-        <!-- Add Transaction Modal -->
-        <div class="modal-overlay" id="addModal">
-            <div class="modal" id="addModalContent">
-                <div class="modal-header">
-                    <h2 id="modalTitle">Add Transaction</h2>
-                    <button class="icon-btn" id="modalCloseBtn" aria-label="Close modal" title="Close"><i class="fas fa-times"></i></button>
-                </div>
-                <div class="modal-body">
-                    <!-- Type Selector -->
-                    <div class="type-toggle" id="typeToggle">
-                        <button class="type-btn active" data-type="expense" id="typeExpenseBtn">
-                            <i class="fas fa-arrow-down"></i> Expense
-                        </button>
-                        <button class="type-btn" data-type="income" id="typeIncomeBtn">
-                            <i class="fas fa-arrow-up"></i> Income
-                        </button>
-                    </div>
-
+                <div class="modal-form-grid">
                     <!-- Amount -->
                     <div class="form-group amount-group">
                         <label>Amount</label>
@@ -283,48 +376,48 @@
                         <input type="text" id="descInput" placeholder="What was it for?" autocomplete="off">
                     </div>
 
-                    <!-- Category -->
-                    <div class="form-group">
-                        <label>Category</label>
-                        <div class="category-grid" id="categoryGrid"></div>
-                    </div>
-
                     <!-- Date -->
                     <div class="form-group">
                         <label>Date</label>
                         <input type="date" id="dateInput" title="Transaction date" aria-label="Transaction date">
                     </div>
-
-                    <!-- Notes -->
-                    <div class="form-group">
-                        <label>Notes <span class="optional">(optional)</span></label>
-                        <textarea id="notesInput" placeholder="Add any extra notes..." rows="3"></textarea>
-                    </div>
                 </div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" id="modalCancelBtn">Cancel</button>
-                    <button class="btn btn-primary" id="modalSaveBtn">
-                        <i class="fas fa-check"></i> Save Transaction
-                    </button>
+
+                <!-- Category -->
+                <div class="form-group">
+                    <label>Category</label>
+                    <div class="category-grid" id="categoryGrid"></div>
+                </div>
+
+                <!-- Notes -->
+                <div class="form-group">
+                    <label>Notes <span class="optional">(optional)</span></label>
+                    <textarea id="notesInput" placeholder="Add any extra notes..." rows="2"></textarea>
                 </div>
             </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="modalCancelBtn">Cancel</button>
+                <button class="btn btn-primary" id="modalSaveBtn">
+                    <i class="fas fa-check"></i> Save Transaction
+                </button>
+            </div>
         </div>
+    </div>
 
-        <!-- Delete Confirmation Modal -->
-        <div class="modal-overlay" id="deleteModal">
-            <div class="modal modal-sm">
-                <div class="modal-header">
-                    <h2>Delete Transaction</h2>
-                </div>
-                <div class="modal-body">
-                    <p class="confirm-text">Are you sure you want to delete this transaction? This cannot be undone.</p>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" id="deleteCancelBtn">Cancel</button>
-                    <button class="btn btn-danger" id="deleteConfirmBtn">
-                        <i class="fas fa-trash-alt"></i> Delete
-                    </button>
-                </div>
+    <!-- Delete Confirmation Modal -->
+    <div class="modal-overlay" id="deleteModal">
+        <div class="modal modal-sm">
+            <div class="modal-header">
+                <h2>Delete Transaction</h2>
+            </div>
+            <div class="modal-body">
+                <p class="confirm-text">Are you sure you want to delete this transaction? This cannot be undone.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="deleteCancelBtn">Cancel</button>
+                <button class="btn btn-danger" id="deleteConfirmBtn">
+                    <i class="fas fa-trash-alt"></i> Delete
+                </button>
             </div>
         </div>
     </div>
