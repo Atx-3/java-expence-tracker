@@ -1,46 +1,86 @@
 <!DOCTYPE html>
+<!-- DOCTYPE declaration tells the browser this is an HTML5 document -->
+<!-- This is the root element with language set to English for accessibility and SEO -->
 <html lang="en">
 <head>
+    <!-- Character encoding set to UTF-8 to support all international characters including ₹, €, £, ¥ -->
     <meta charset="UTF-8">
+
+    <!-- Viewport meta tag ensures proper scaling on all devices (responsive design) -->
+    <!-- width=device-width makes the page match the screen width; initial-scale=1.0 sets default zoom -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Page title shown in browser tab and used by search engines for indexing -->
     <title>Expense Tracker — Smart Financial Management</title>
+
+    <!-- Meta description helps search engines understand page content (SEO best practice) -->
     <meta name="description" content="A modern, beautiful expense tracker to manage your finances with smart analytics, category breakdowns, and monthly trend reports.">
+
+    <!-- Preconnect hints tell the browser to establish early connections to Google Fonts servers -->
+    <!-- This reduces latency when the fonts are actually requested later -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- Loading 'Inter' font from Google Fonts with multiple weights (300-800) for varied typography -->
+    <!-- The 'display=swap' ensures text is visible immediately using fallback fonts while Inter loads -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome 6.5 CDN provides icon fonts (fa-wallet, fa-chart-pie, etc.) used throughout the UI -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Our custom stylesheet containing the full design system with CSS custom properties -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <!-- Main app container using flexbox to create sidebar + content layout -->
     <div id="app" class="app">
-        <!-- Sidebar Navigation -->
+
+        <!-- ========================================== -->
+        <!-- SIDEBAR NAVIGATION - Fixed left panel      -->
+        <!-- Contains brand logo, nav links, add button -->
+        <!-- ========================================== -->
         <aside class="sidebar" id="sidebar">
+            <!-- Brand section at the top of sidebar with icon and app name -->
             <div class="sidebar-brand">
+                <!-- Brand icon with gradient background representing a wallet -->
                 <div class="brand-icon">
                     <i class="fas fa-wallet"></i>
                 </div>
+                <!-- Application name displayed next to the icon -->
                 <span class="brand-name">ExpenseTracker</span>
             </div>
 
+            <!-- Navigation menu - each button switches between different views -->
+            <!-- JavaScript listens to click events on these buttons to change the active view -->
             <nav class="sidebar-nav">
+                <!-- Dashboard/Home button - active by default (has 'active' class) -->
+                <!-- data-view attribute tells JavaScript which view section to display -->
                 <button class="nav-item active" data-view="home" id="navHome">
                     <i class="fas fa-home"></i>
                     <span>Dashboard</span>
                 </button>
+
+                <!-- Transactions list button - shows all transactions with search/filter -->
                 <button class="nav-item" data-view="transactions" id="navTransactions">
                     <i class="fas fa-list-ul"></i>
                     <span>Transactions</span>
                 </button>
+
+                <!-- Reports button - shows analytics with charts and category breakdowns -->
                 <button class="nav-item" data-view="reports" id="navReports">
                     <i class="fas fa-chart-pie"></i>
                     <span>Reports</span>
                 </button>
+
+                <!-- Settings button - theme toggle, currency selection, data management -->
                 <button class="nav-item" data-view="settings" id="navSettings">
                     <i class="fas fa-cog"></i>
                     <span>Settings</span>
                 </button>
             </nav>
 
+            <!-- Sidebar footer contains the primary call-to-action button -->
+            <!-- This button opens the Add Transaction modal dialog -->
             <div class="sidebar-footer">
                 <button class="add-transaction-btn" id="sidebarAddBtn">
                     <i class="fas fa-plus"></i>
@@ -49,15 +89,29 @@
             </div>
         </aside>
 
-        <!-- Main Content Area -->
+        <!-- ========================================== -->
+        <!-- MAIN CONTENT AREA                          -->
+        <!-- Contains all 4 views (only one shown at a  -->
+        <!-- time using display:none/block toggling)     -->
+        <!-- ========================================== -->
         <main class="main-content" id="mainContent">
-            <!-- HOME / DASHBOARD VIEW -->
+
+            <!-- ============================== -->
+            <!-- HOME / DASHBOARD VIEW          -->
+            <!-- Shows balance, income, expense -->
+            <!-- summary cards, recent txns,    -->
+            <!-- and category breakdown         -->
+            <!-- ============================== -->
             <section id="homeView" class="view active">
+                <!-- View header with title, date subtitle, and action button -->
                 <header class="view-header">
                     <div>
+                        <!-- Main heading for the dashboard page -->
                         <h1>Dashboard</h1>
+                        <!-- Dynamic subtitle showing current date (populated by JavaScript) -->
                         <p class="view-subtitle" id="balanceDate"></p>
                     </div>
+                    <!-- Header-level Add Transaction button for quick access -->
                     <div class="header-actions">
                         <button class="btn btn-primary" id="headerAddBtn">
                             <i class="fas fa-plus"></i> Add Transaction
@@ -65,51 +119,69 @@
                     </div>
                 </header>
 
-                <!-- Top Summary Cards -->
+                <!-- Top Summary Cards - 3-column grid showing financial overview -->
+                <!-- These values are dynamically calculated from all transactions in localStorage -->
                 <div class="dashboard-cards">
+                    <!-- Balance Card - Shows total balance (income - expenses) -->
+                    <!-- Has a gradient background and floating decorative circles for visual appeal -->
                     <div class="dash-card balance-card" id="balanceCard">
+                        <!-- Decorative animated circles (purely visual, CSS animated) -->
                         <div class="dash-card-decoration">
                             <div class="deco-circle deco-circle-1"></div>
                             <div class="deco-circle deco-circle-2"></div>
                         </div>
+                        <!-- Actual content: icon + label + amount -->
                         <div class="dash-card-content">
                             <div class="dash-card-icon"><i class="fas fa-wallet"></i></div>
                             <div class="dash-card-info">
                                 <span class="dash-card-label">Total Balance</span>
+                                <!-- This span is updated by JavaScript with calculated balance -->
                                 <span class="dash-card-value" id="totalBalance">$0.00</span>
                             </div>
                         </div>
                     </div>
+
+                    <!-- Income Card - Shows total income from all income transactions -->
                     <div class="dash-card income-card">
                         <div class="dash-card-content">
+                            <!-- Green up-arrow icon indicating money coming in -->
                             <div class="dash-card-icon income"><i class="fas fa-arrow-up"></i></div>
                             <div class="dash-card-info">
                                 <span class="dash-card-label">Total Income</span>
+                                <!-- Dynamically populated with sum of all income transactions -->
                                 <span class="dash-card-value income" id="totalIncome">$0.00</span>
                             </div>
                         </div>
                     </div>
+
+                    <!-- Expense Card - Shows total expenses from all expense transactions -->
                     <div class="dash-card expense-card">
                         <div class="dash-card-content">
+                            <!-- Red down-arrow icon indicating money going out -->
                             <div class="dash-card-icon expense"><i class="fas fa-arrow-down"></i></div>
                             <div class="dash-card-info">
                                 <span class="dash-card-label">Total Expenses</span>
+                                <!-- Dynamically populated with sum of all expense transactions -->
                                 <span class="dash-card-value expense" id="totalExpense">$0.00</span>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Dashboard Grid -->
+                <!-- Dashboard Grid - Two-column layout for recent transactions and categories -->
                 <div class="dashboard-grid">
-                    <!-- Recent Transactions -->
+                    <!-- Recent Transactions Panel - Shows the last 6 transactions -->
                     <div class="panel">
                         <div class="panel-header">
                             <h3>Recent Transactions</h3>
+                            <!-- "View All" navigates to the full Transactions view -->
                             <button class="link-btn" id="viewAllTransactions">View All <i class="fas fa-arrow-right"></i></button>
                         </div>
                         <div class="panel-body">
+                            <!-- This container is populated dynamically by JavaScript -->
+                            <!-- Each transaction item shows icon, description, category, date, and amount -->
                             <div id="recentTransactions" class="transactions-list">
+                                <!-- Empty state shown when no transactions exist -->
                                 <div class="empty-state">
                                     <i class="fas fa-receipt"></i>
                                     <p>No transactions yet</p>
@@ -119,12 +191,13 @@
                         </div>
                     </div>
 
-                    <!-- Category Breakdown -->
+                    <!-- Category Breakdown Panel - Shows top 5 expense categories with progress bars -->
                     <div class="panel">
                         <div class="panel-header">
                             <h3>Spending by Category</h3>
                         </div>
                         <div class="panel-body">
+                            <!-- Populated by JavaScript: shows category icon, name, amount, and % bar -->
                             <div id="categoryBreakdown" class="category-list">
                                 <div class="empty-state sm">
                                     <p>No expense data yet</p>
@@ -135,13 +208,18 @@
                 </div>
             </section>
 
-            <!-- TRANSACTIONS VIEW -->
+            <!-- ============================== -->
+            <!-- TRANSACTIONS VIEW              -->
+            <!-- Full list of all transactions  -->
+            <!-- with search and type filter    -->
+            <!-- ============================== -->
             <section id="transactionsView" class="view">
                 <header class="view-header">
                     <div>
                         <h1>Transactions</h1>
                         <p class="view-subtitle">Manage all your transactions</p>
                     </div>
+                    <!-- Dedicated Add button for this view -->
                     <div class="header-actions">
                         <button class="btn btn-primary" id="transactionsAddBtn">
                             <i class="fas fa-plus"></i> Add Transaction
@@ -149,11 +227,17 @@
                     </div>
                 </header>
 
+                <!-- Filter Bar - Search input + type dropdown for filtering transactions -->
                 <div class="filter-bar">
+                    <!-- Search box with magnifying glass icon -->
+                    <!-- 'input' event listener triggers real-time filtering as user types -->
                     <div class="search-wrapper" id="searchWrapper">
                         <i class="fas fa-search"></i>
                         <input type="text" id="searchInput" placeholder="Search transactions..." autocomplete="off">
                     </div>
+
+                    <!-- Type filter dropdown - filters by All/Income/Expense -->
+                    <!-- aria-label and title provide accessibility for screen readers -->
                     <select id="typeFilter" class="filter-select" aria-label="Filter by transaction type" title="Filter by type">
                         <option value="all">All Types</option>
                         <option value="income">Income</option>
@@ -161,8 +245,11 @@
                     </select>
                 </div>
 
+                <!-- Transaction list panel - grouped by date with date headers -->
                 <div class="panel">
                     <div class="panel-body">
+                        <!-- JavaScript populates this with date-grouped transaction items -->
+                        <!-- Each item is clickable to open Edit modal -->
                         <div id="allTransactions" class="transactions-list">
                             <div class="empty-state">
                                 <i class="fas fa-receipt"></i>
@@ -173,7 +260,12 @@
                 </div>
             </section>
 
-            <!-- REPORTS VIEW -->
+            <!-- ============================== -->
+            <!-- REPORTS VIEW                   -->
+            <!-- Analytics with period selector,-->
+            <!-- stats cards, donut chart,      -->
+            <!-- bar chart, and category list   -->
+            <!-- ============================== -->
             <section id="reportsView" class="view">
                 <header class="view-header">
                     <div>
@@ -182,15 +274,19 @@
                     </div>
                 </header>
 
+                <!-- Period Selector - Pill-style buttons to choose time range -->
+                <!-- JavaScript filters transactions based on selected period -->
                 <div class="period-selector" id="periodSelector">
                     <button class="period-btn" data-period="week">Week</button>
+                    <!-- 'month' is active by default -->
                     <button class="period-btn active" data-period="month">Month</button>
                     <button class="period-btn" data-period="year">Year</button>
                     <button class="period-btn" data-period="all">All Time</button>
                 </div>
 
-                <!-- Stats Row -->
+                <!-- Stats Row - Three summary cards showing income, expense, and net savings -->
                 <div class="stats-row" id="statsRow">
+                    <!-- Income stat with green icon -->
                     <div class="stat-card stat-income">
                         <div class="stat-icon income"><i class="fas fa-arrow-up"></i></div>
                         <div>
@@ -198,6 +294,7 @@
                             <span class="stat-value" id="statIncome">$0.00</span>
                         </div>
                     </div>
+                    <!-- Expense stat with red icon -->
                     <div class="stat-card stat-expense">
                         <div class="stat-icon expense"><i class="fas fa-arrow-down"></i></div>
                         <div>
@@ -205,6 +302,7 @@
                             <span class="stat-value" id="statExpense">$0.00</span>
                         </div>
                     </div>
+                    <!-- Net savings stat - color changes based on positive/negative -->
                     <div class="stat-card stat-net">
                         <div class="stat-icon net"><i class="fas fa-scale-balanced"></i></div>
                         <div>
@@ -214,30 +312,36 @@
                     </div>
                 </div>
 
+                <!-- Charts Grid - Two-column layout with donut chart and bar chart -->
                 <div class="reports-grid">
-                    <!-- Donut Chart -->
+                    <!-- Donut Chart Panel - Shows spending distribution by category -->
                     <div class="panel">
                         <div class="panel-header">
                             <h3>Spending Distribution</h3>
                         </div>
                         <div class="panel-body chart-panel-body">
+                            <!-- Canvas element used by JavaScript Canvas 2D API to draw the donut chart -->
                             <div class="chart-container" id="donutChartContainer">
                                 <canvas id="donutChart" width="260" height="260"></canvas>
+                                <!-- Center overlay showing total amount inside the donut -->
                                 <div class="chart-center" id="chartCenter">
                                     <span class="chart-total-label">Total</span>
                                     <span class="chart-total-amount" id="chartTotalAmount">$0</span>
                                 </div>
                             </div>
+                            <!-- Legend showing category colors and names below the chart -->
                             <div id="chartLegend" class="chart-legend"></div>
                         </div>
                     </div>
 
-                    <!-- Bar Chart -->
+                    <!-- Bar Chart Panel - Shows monthly expense trend (last 6 months) -->
                     <div class="panel">
                         <div class="panel-header">
                             <h3>Monthly Trend</h3>
                         </div>
                         <div class="panel-body">
+                            <!-- Canvas element for bar chart - drawn using Canvas 2D API -->
+                            <!-- Gradient bars with rounded tops -->
                             <div class="bar-chart-container">
                                 <canvas id="barChart" width="500" height="250"></canvas>
                             </div>
@@ -245,18 +349,23 @@
                     </div>
                 </div>
 
-                <!-- Category Breakdown -->
+                <!-- Category Breakdown - Grid of all expense categories with amounts and progress bars -->
                 <div class="panel" style="margin-top:20px">
                     <div class="panel-header">
                         <h3>Category Breakdown</h3>
                     </div>
                     <div class="panel-body">
+                        <!-- Uses CSS Grid with auto-fill to create responsive columns -->
                         <div id="reportCategoryBreakdown" class="category-list category-list-grid"></div>
                     </div>
                 </div>
             </section>
 
-            <!-- SETTINGS VIEW -->
+            <!-- ============================== -->
+            <!-- SETTINGS VIEW                  -->
+            <!-- Theme toggle, currency select, -->
+            <!-- data export and clear options  -->
+            <!-- ============================== -->
             <section id="settingsView" class="view">
                 <header class="view-header">
                     <div>
@@ -265,7 +374,9 @@
                     </div>
                 </header>
 
+                <!-- Settings container - max-width constrained for readability -->
                 <div class="settings-container">
+                    <!-- Appearance Panel - Dark mode toggle -->
                     <div class="panel">
                         <div class="panel-header"><h3>Appearance</h3></div>
                         <div class="panel-body">
@@ -277,6 +388,8 @@
                                         <span class="settings-desc">Switch between light and dark themes</span>
                                     </div>
                                 </div>
+                                <!-- Toggle switch implemented with checkbox + CSS pseudo-elements -->
+                                <!-- 'change' event listener triggers theme switching in JavaScript -->
                                 <label class="toggle-switch">
                                     <input type="checkbox" id="darkModeToggle" title="Toggle dark mode" aria-label="Toggle dark mode">
                                     <span class="toggle-slider"></span>
@@ -285,6 +398,7 @@
                         </div>
                     </div>
 
+                    <!-- Currency Panel - Dropdown to select display currency -->
                     <div class="panel">
                         <div class="panel-header"><h3>Currency</h3></div>
                         <div class="panel-body">
@@ -296,6 +410,7 @@
                                         <span class="settings-desc">Choose your preferred currency</span>
                                     </div>
                                 </div>
+                                <!-- Currency dropdown - changing this updates all displayed amounts app-wide -->
                                 <select id="currencySelect" class="filter-select" aria-label="Select currency" title="Select currency">
                                     <option value="USD">USD ($)</option>
                                     <option value="EUR">EUR (€)</option>
@@ -307,10 +422,13 @@
                         </div>
                     </div>
 
+                    <!-- Data Management Panel - Export and Clear actions -->
                     <div class="panel">
                         <div class="panel-header"><h3>Data Management</h3></div>
                         <div class="panel-body">
                             <div class="settings-actions">
+                                <!-- Export button - downloads all transactions as a JSON file -->
+                                <!-- Uses Blob API and URL.createObjectURL for client-side file generation -->
                                 <button class="settings-action-btn" id="exportDataBtn">
                                     <i class="fas fa-download"></i>
                                     <div>
@@ -318,6 +436,9 @@
                                         <span class="settings-desc">Download all transactions as JSON</span>
                                     </div>
                                 </button>
+
+                                <!-- Clear data button - permanently deletes all transactions -->
+                                <!-- Shows a confirmation dialog before proceeding (uses confirm()) -->
                                 <button class="settings-action-btn danger" id="clearDataBtn">
                                     <i class="fas fa-trash-alt"></i>
                                     <div>
@@ -329,6 +450,7 @@
                         </div>
                     </div>
 
+                    <!-- About Panel - App information and version -->
                     <div class="panel about-panel">
                         <div class="panel-body" style="text-align:center; padding:32px">
                             <div class="about-icon"><i class="fas fa-wallet"></i></div>
@@ -340,18 +462,30 @@
                 </div>
             </section>
         </main>
+        <!-- End of main content area -->
     </div>
+    <!-- End of app container -->
 
-    <!-- Add/Edit Transaction Modal -->
+    <!-- ========================================== -->
+    <!-- ADD/EDIT TRANSACTION MODAL                  -->
+    <!-- Overlay dialog for creating and editing     -->
+    <!-- transactions. Toggled via JavaScript.       -->
+    <!-- ========================================== -->
     <div class="modal-overlay" id="addModal">
+        <!-- Modal container with centered positioning (CSS flexbox) -->
         <div class="modal" id="addModalContent">
+            <!-- Modal header with dynamic title (changes between "Add" and "Edit") -->
             <div class="modal-header">
                 <h2 id="modalTitle">Add Transaction</h2>
+                <!-- Close button with accessibility attributes -->
                 <button class="icon-btn" id="modalCloseBtn" aria-label="Close modal" title="Close"><i class="fas fa-times"></i></button>
             </div>
+
             <div class="modal-body">
-                <!-- Type Selector -->
+                <!-- Type Toggle - Switch between Expense (red) and Income (green) -->
+                <!-- Changing type also updates the category grid below -->
                 <div class="type-toggle" id="typeToggle">
+                    <!-- Expense is selected by default (has 'active' class) -->
                     <button class="type-btn active" data-type="expense" id="typeExpenseBtn">
                         <i class="fas fa-arrow-down"></i> Expense
                     </button>
@@ -360,43 +494,53 @@
                     </button>
                 </div>
 
+                <!-- Form Grid - Amount, Description, and Date arranged in 3 columns -->
                 <div class="modal-form-grid">
-                    <!-- Amount -->
+                    <!-- Amount Input - Uses number type with step for decimal precision -->
+                    <!-- inputmode="decimal" shows numeric keyboard on mobile devices -->
                     <div class="form-group amount-group">
                         <label>Amount</label>
                         <div class="amount-input-wrapper">
+                            <!-- Currency symbol dynamically matches selected currency -->
                             <span class="currency-symbol" id="modalCurrencySymbol">$</span>
                             <input type="number" id="amountInput" placeholder="0.00" step="0.01" min="0" inputmode="decimal">
                         </div>
                     </div>
 
-                    <!-- Description -->
+                    <!-- Description Input - Required field describing the transaction -->
                     <div class="form-group">
                         <label>Description</label>
                         <input type="text" id="descInput" placeholder="What was it for?" autocomplete="off">
                     </div>
 
-                    <!-- Date -->
+                    <!-- Date Input - Defaults to today's date (set by JavaScript on modal open) -->
                     <div class="form-group">
                         <label>Date</label>
                         <input type="date" id="dateInput" title="Transaction date" aria-label="Transaction date">
                     </div>
                 </div>
 
-                <!-- Category -->
+                <!-- Category Grid - Visual grid of category buttons -->
+                <!-- Dynamically populated by JavaScript based on selected type (expense/income) -->
+                <!-- 9 expense categories OR 5 income categories are shown -->
                 <div class="form-group">
                     <label>Category</label>
-                    <div class="category-grid" id="categoryGrid"></div>
+                    <div class="category-grid" id="categoryGrid">
+                        <!-- Buttons are injected here by renderCategoryGrid() function -->
+                    </div>
                 </div>
 
-                <!-- Notes -->
+                <!-- Notes - Optional textarea for additional transaction details -->
                 <div class="form-group">
                     <label>Notes <span class="optional">(optional)</span></label>
                     <textarea id="notesInput" placeholder="Add any extra notes..." rows="2"></textarea>
                 </div>
             </div>
+
+            <!-- Modal Footer - Cancel and Save buttons -->
             <div class="modal-footer">
                 <button class="btn btn-secondary" id="modalCancelBtn">Cancel</button>
+                <!-- Save button triggers validation and creates/updates the transaction -->
                 <button class="btn btn-primary" id="modalSaveBtn">
                     <i class="fas fa-check"></i> Save Transaction
                 </button>
@@ -404,17 +548,23 @@
         </div>
     </div>
 
-    <!-- Delete Confirmation Modal -->
+    <!-- ========================================== -->
+    <!-- DELETE CONFIRMATION MODAL                   -->
+    <!-- Shown when user attempts to delete a        -->
+    <!-- transaction - requires explicit confirmation-->
+    <!-- ========================================== -->
     <div class="modal-overlay" id="deleteModal">
         <div class="modal modal-sm">
             <div class="modal-header">
                 <h2>Delete Transaction</h2>
             </div>
             <div class="modal-body">
+                <!-- Warning message informing the user this action is irreversible -->
                 <p class="confirm-text">Are you sure you want to delete this transaction? This cannot be undone.</p>
             </div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" id="deleteCancelBtn">Cancel</button>
+                <!-- Confirm button triggers deleteTransaction() in JavaScript -->
                 <button class="btn btn-danger" id="deleteConfirmBtn">
                     <i class="fas fa-trash-alt"></i> Delete
                 </button>
@@ -422,6 +572,8 @@
         </div>
     </div>
 
+    <!-- Main JavaScript file containing all application logic -->
+    <!-- Loaded at the end of body to ensure DOM is ready before script executes -->
     <script src="app.js"></script>
 </body>
 </html>
